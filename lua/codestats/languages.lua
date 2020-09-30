@@ -1,15 +1,16 @@
 -- default: Plain text
 local languages = {
+	["vim-plug"] = "Vim-fu",
 	ada = "Ada",
 	ansible = "Ansible",
 	ansible_hosts = "Ansible",
 	ansible_template = "Ansible",
 	c = "C/C++",
-	cs = "C#",
 	clojure = "Clojure",
 	cmake = "CMake",
 	coffee = "CoffeeScript",
 	cpp = "C/C++",
+	cs = "C#",
 	css = "CSS",
 	dart = "Dart",
 	diff = "Diff",
@@ -27,6 +28,7 @@ local languages = {
 	haskell = "Haskell",
 	html = "HTML",
 	htmldjango = "HTML (Django)",
+	jade = "Pug (Jade)",
 	java = "Java",
 	javascript = "JavaScript",
 	json = "JSON",
@@ -34,6 +36,7 @@ local languages = {
 	jsx = "JavaScript (JSX)",
 	kotlin = "Kotlin",
 	markdown = "Markdown",
+	netrw = "Vim-fu"
 	objc = "Objective-C",
 	objcpp = "Objective-C++",
 	ocaml = "OCaml",
@@ -42,11 +45,12 @@ local languages = {
 	perl6 = "Perl 6",
 	pgsql = "SQL (PostgreSQL)",
 	php = "PHP",
+	plain_text = "Plain text",
 	plsql = "PL/SQL",
+	pug = "Pug (Jade)",
 	puppet = "Puppet",
 	purescript = "PureScript",
 	python = "Python",
-	plain_text = "Plain text",
 	ruby = "Ruby",
 	rust = "Rust",
 	scala = "Scala",
@@ -65,8 +69,6 @@ local languages = {
 	vim = "VimL",
 	yaml = "YAML",
 	zsh = "Shell Script (Zsh)",
-	jade = "Pug (Jade)",
-	pug = "Pug (Jade)"
 }
 
 return languages

@@ -1,7 +1,7 @@
 local languages = require("codestats.languages")
 local curl = require("codestats.curl")
 
-CODESTATS_VERSION = "0.2.0"
+CODESTATS_VERSION = "0.3.0"
 CODESTATS_API_URL = vim.env.CODESTATS_API_URL or "https://codestats.net/api"
 CODESTATS_API_KEY = vim.env.CODESTATS_API_KEY
 
