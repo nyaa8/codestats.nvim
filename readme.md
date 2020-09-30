@@ -39,3 +39,28 @@ call packager#add('nyaa8/codestats.nvim')
 call dein#add('nyaa8/codestats.nvim')
 ```
 
+## Configuration
+Set `CODESTATS_API_KEY` environment variable to your CodeStats token.
+
+### Fish
+
+```sh
+set -Ux "SFMyNTY.OEotWWdnPT0jI01qaz0.X0wVEZquh8Ogau1iTtBihYqqL71FD8N6p5ChQiIpaxQ"
+```
+
+### Zsh
+
+```sh
+echo "export CODESTATS_API_KEY=SFMyNTY.OEotWWdnPT0jI01qaz0.X0wVEZquh8Ogau1iTtBihYqqL71FD8N6p5ChQiIpaxQ" >> ~/.zshenv
+```
+
+### Bash
+
+```sh
+echo "export CODESTATS_API_KEY=SFMyNTY.OEotWWdnPT0jI01qaz0.X0wVEZquh8Ogau1iTtBihYqqL71FD8N6p5ChQiIpaxQ" >> ~/.bash_profile
+```
+
+You can also set `CODESTATS_API_URL` if you want to use a different instance, eg.
+```sh
+set -Ux CODESTATS_API_URL "https://beta.codestats.net/api"
+```
