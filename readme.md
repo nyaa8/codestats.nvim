@@ -1,7 +1,7 @@
 🥬 codestats.nvim
 =================
 
-A simple [neovim](https://neovim.io) *plugin* for [Code::Stats](https://codestats.net).
+A simple [neovim](https://neovim.io) plugin for [Code::Stats](https://codestats.net).
 
 ## Features
 
@@ -14,7 +14,6 @@ A simple [neovim](https://neovim.io) *plugin* for [Code::Stats](https://codestat
 - neovim 0.5 or newer
 
 ## Installation
-
 ### [vim-plug](https://github.com/junegunn/vim-plug)
 
 ```viml
@@ -40,7 +39,8 @@ call dein#add('nyaa8/codestats.nvim')
 ```
 
 ## Configuration
-Set `CODESTATS_API_KEY` environment variable to your CodeStats token.
+
+Set the `CODESTATS_API_KEY` environment variable to your CodeStats token.
 
 ### Fish
 
