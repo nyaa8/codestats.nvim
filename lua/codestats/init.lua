@@ -1,7 +1,7 @@
 local languages = require("codestats.languages")
 local curl = require("codestats.curl")
 
-CODESTATS_VERSION = "0.1.0"
+CODESTATS_VERSION = "0.2.0"
 CODESTATS_API_URL = vim.env.CODESTATS_API_URL or "https://codestats.net/api"
 CODESTATS_API_KEY = vim.env.CODESTATS_API_KEY
 
@@ -18,6 +18,10 @@ end
 local function pulse()
 	if #CODESTATS_API_KEY == 0 then
 		vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
+		return
+	end
+
+	if next(xp_table) == nil then
 		return
 	end
 
