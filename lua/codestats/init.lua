@@ -6,6 +6,7 @@ CODESTATS_API_URL = vim.env.CODESTATS_API_URL or "https://codestats.net/api"
 CODESTATS_API_KEY = vim.env.CODESTATS_API_KEY
 
 local xp_table = {}
+local curr_xp = 0
 
 local function gather_xp(filetype, xp_amount)
 	if filetype:gsub("%s+","") == "" then
@@ -13,6 +14,7 @@ local function gather_xp(filetype, xp_amount)
 	end
 
 	xp_table[filetype] = (xp_table[filetype] or 0) + xp_amount
+	curr_xp = xp_table[filetype]
 end
 
 local function pulse()
@@ -41,12 +43,18 @@ local function pulse()
 
 	if response:sub(1,1) == "2" then
 		xp_table = {}
+		curr_xp = 0
 	end
+end
+
+local function current_xp()
+	return curr_xp	
 end
 
 return {
 	pulse = pulse,
 	gather_xp = gather_xp,
+	current_xp = current_xp,
 	CODESTATS_VERSION = CODESTATS_VERSION,
 	CODESTATS_API_URL = CODESTATS_API_URL,
 	CODESTATS_API_KEY = CODESTATS_API_KEY,

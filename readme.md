@@ -64,3 +64,18 @@ You can also set `CODESTATS_API_URL` if you want to use a different instance, eg
 ```sh
 set -Ux CODESTATS_API_URL "https://beta.codestats.net/api"
 ```
+
+### Lualine
+
+Call `get_codestats` in any of the sections.
+
+```lua
+
+local function get_codestats()
+	local codestats = require("codestats")
+	local exp = codestats.current_xp()
+	
+	return "CS::" .. tostring(exp)
+
+end
+```
