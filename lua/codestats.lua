@@ -1,14 +1,15 @@
+local curl = require('codestats.curl')
+local languages  = require('codestats.languages')
 local cmd = api.nvim_command
 
-local codestats = {}
+local M = {}
 
 local opts = {
     version = "0.3.0",
     url = "https://codestats.net/api",
 }
 
-
-function codestats.setup(options)
+function M.setup(options)
     local codestats_api_key = vim.env.CODESTATS_API_KEY or options["key"]
     if codestats_api_key == nil then
         vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
@@ -38,4 +39,4 @@ end
     cmd([[  augroup END ]])
 end
 
-return codestats
+return M
