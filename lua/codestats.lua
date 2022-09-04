@@ -1,6 +1,6 @@
-local curl = require("codestats.curl")
-local languages = require("codestats.languages")
-local cmd = api.nvim_command
+-- local curl = require("codestats.curl")
+-- local languages = require("codestats.languages")
+-- local cmd = api.nvim_command
 
 local M = {}
 
