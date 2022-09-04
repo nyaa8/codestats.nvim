@@ -1,4 +1,4 @@
-local function curlkey, version, url(payload)
+local function curl(key, version, url,payload)
 	local cmd = { 
 		'curl',
 		'--header', 'Content-Type: application/json',
