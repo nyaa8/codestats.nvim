@@ -1,19 +1,16 @@
-local g = vim.g
 local languages = require("codestats.languages")
 local curl = require("codestats.curl")
 
 local M = {}
 
 M.config = {
-
     version = "0.3.0",
     url = "https://codestats.net/api",
 }
+
 local xp_table = {}
 local curr_xp = 0
 
---M.init = function() end
---
 M.setup = function(options)
     local codestats_api_key = vim.env.CODESTATS_API_KEY
     if codestats_api_key == nil then
@@ -55,7 +52,7 @@ M.pulse = function()
 
     payload = payload:sub(1, -2) .. payload_end
 
-    local response = curl(payload)
+    local response = curl(M.config["key"], M.config["version"], M.config["url"], payload)
 
     if response:sub(1, 1) == "2" then
         xp_table = {}

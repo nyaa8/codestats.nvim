@@ -1,15 +1,15 @@
-local function curl(payload)
+local function curlkey, version, url(payload)
 	local cmd = { 
 		'curl',
 		'--header', 'Content-Type: application/json',
-		'--header', 'X-API-Token: ' .. CODESTATS_API_KEY,
-		'--user-agent', 'codestats.nvim/' .. CODESTATS_VERSION,
+		'--header', 'X-API-Token: ' .. key,
+		'--user-agent', 'codestats.nvim/' .. verison,
 		'--data', payload,
 		'--request', 'POST',
 		'--silent',
 		'--output', '/dev/null',
 		'--write-out', '%{http_code}',
-		CODESTATS_API_URL .. '/my/pulses'
+		url .. '/my/pulses'
 	}
 
 	return vim.fn.system(cmd)
