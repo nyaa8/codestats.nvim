@@ -38,7 +38,7 @@ function codestats.pulse()
 
     payload = payload:sub(1, -2) .. payload_end
 
-    local response = curl(M.config["key"], M.config["version"], M.config["url"], payload)
+    local response = curl(opts["key"], opts["version"], opts["url"], payload)
 
     if response:sub(1, 1) == "2" then
         xp_table = {}
@@ -50,7 +50,7 @@ function codestats.current_xp()
     return curr_xp
 end
 
-function current_xp_formatted()
+function codestats.current_xp_formatted()
     return "CS::" .. tostring(curr_xp)
 end
 
@@ -70,6 +70,11 @@ function codestats.setup(options)
         key = codestats_api_key,
         username = username,
     }
+
+for key, value in pairs(opts) do
+print(key, value)	
+end
+
     opts = vim.tbl_extend("force", opts, set_opts)
     cmd([[  augroup codestats ]])
     cmd([[  autocmd! ]])
