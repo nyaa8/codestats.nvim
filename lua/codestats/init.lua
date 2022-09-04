@@ -1,9 +1,11 @@
+local cmd = api.nvim_command
+
 local languages = require("codestats.languages")
 local curl = require("codestats.curl")
 
-local M = {}
+local codestats = {}
 
-M.config = {
+local opts = {
     version = "0.3.0",
     url = "https://codestats.net/api",
 }
@@ -11,23 +13,7 @@ M.config = {
 local xp_table = {}
 local curr_xp = 0
 
-M.setup = function(options)
-    local codestats_api_key = vim.env.CODESTATS_API_KEY
-    if codestats_api_key == nil then
-        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
-        return
-    end
-    local username = vim.env.CODESTATS_USERNAME or options["username"]
-    if username == nil then
-        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
-        return
-    end
-
-    M.config["username"] = username
-    M.config["key"] = codestats_api_key
-end
-
-M.gather_xp = function(filetype, xp_amount)
+function codestats.gather_xp(filetype, xp_amount)
     if filetype:gsub("%s+", "") == "" then
         filetype = "plain_text"
     end
@@ -36,7 +22,7 @@ M.gather_xp = function(filetype, xp_amount)
     curr_xp = xp_table[filetype]
 end
 
-M.pulse = function()
+function codestats.pulse()
     if next(xp_table) == nil then
         return
     end
@@ -60,12 +46,37 @@ M.pulse = function()
     end
 end
 
-M.current_xp = function()
+function codestats.current_xp()
     return curr_xp
 end
 
-M.current_xp_formatted = function()
+function current_xp_formatted()
     return "CS::" .. tostring(curr_xp)
 end
 
-return M
+function codestats.setup(options)
+    local codestats_api_key = vim.env.CODESTATS_API_KEY or options["key"]
+    if codestats_api_key == nil then
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
+        return
+    end
+    local username = vim.env.CODESTATS_USERNAME or options["username"]
+    if username == nil then
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
+        return
+    end
+
+    local set_opts = {
+        key = codestats_api_key,
+        username = username,
+    }
+    opts = vim.tbl_extend("force", opts, set_opts)
+    cmd([[  augroup codestats ]])
+    cmd([[  autocmd! ]])
+    cmd([[  autocmd InsertCharPre,TextChanged : lua require('codestats').gather_xp() ]])
+    cmd([[  autocmd VimLeavePre : lua require('codestats').pulse() ]])
+    cmd([[  autocmd BufWrite,BufLeave : lua require('codestats').pulse() ]])
+    cmd([[  augroup END ]])
+end
+
+return codestats
