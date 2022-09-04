@@ -27,10 +27,6 @@ M.setup = function(options)
 
     M.config = vim.tbl_extend("force", base, opts)
 
-    for key, value in pairs(M.config) do
-        print(key, value)
-    end
-
     M.startup()
     --d”, {
     --	desc = 'Open non-Vim-readable files in system default applications.’,
@@ -47,18 +43,27 @@ end
 M.startup = function()
     local codestats_group = vim.api.nvim_create_augroup("codestats", { clear = true })
     vim.api.nvim_create_autocmd("VimLeavePre", {
-        command = "print('this is a remove')",
+
         group = codestats_group,
+        callback = function(data)
+            print("VimLeavePre")
+        end,
     })
 
-    vim.api.nvim_create_autocmd({"InsertCharPre","TextChanged"}, {
-        command = "print('this insert')",
+    vim.api.nvim_create_autocmd({ "InsertCharPre", "TextChanged" }, {
+
         group = codestats_group,
+        callback = function(data)
+            print("InsertCharPre/TextChanged")
+        end,
     })
 
     vim.api.nvim_create_autocmd({ "BufWrite", "BufLeave" }, {
-        command = "print('this is a bufwrite/leave')",
+
         group = codestats_group,
+        callback = function(data)
+            print("BufWrite/BufLeave")
+        end,
     })
 end
 
