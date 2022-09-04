@@ -14,12 +14,12 @@ local curr_xp = 0
 M.setup = function(options)
     local codestats_api_key = vim.env.CODESTATS_API_KEY
     if codestats_api_key == nil then
-        vim.cmd('o "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
         return
     end
     local username = vim.env.CODESTATS_USERNAME or options["username"]
     if username == nil then
-        vim.cmd('o "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
         return
     end
 
