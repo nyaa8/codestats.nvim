@@ -1,8 +1,5 @@
 local cmd = api.nvim_command
 
-local languages = require("codestats.languages")
-local curl = require("codestats.curl")
-
 local codestats = {}
 
 local opts = {
@@ -10,49 +7,6 @@ local opts = {
     url = "https://codestats.net/api",
 }
 
-local xp_table = {}
-local curr_xp = 0
-
-function codestats.gather_xp(filetype, xp_amount)
-    if filetype:gsub("%s+", "") == "" then
-        filetype = "plain_text"
-    end
-
-    xp_table[filetype] = (xp_table[filetype] or 0) + xp_amount
-    curr_xp = xp_table[filetype]
-end
-
-function codestats.pulse()
-    if next(xp_table) == nil then
-        return
-    end
-
-    local time = os.date("%Y-%m-%dT%T%z")
-    local payload = '{ "coded_at": "' .. time .. '", "xps": ['
-    local xp_t = '{ "language": "%s", "xp": %d },'
-    local payload_end = "]}"
-
-    for filetype, xp in pairs(xp_table) do
-        payload = payload .. string.format(xp_t, languages[filetype] or filetype, xp)
-    end
-
-    payload = payload:sub(1, -2) .. payload_end
-
-    local response = curl(opts["key"], opts["version"], opts["url"], payload)
-
-    if response:sub(1, 1) == "2" then
-        xp_table = {}
-        curr_xp = 0
-    end
-end
-
-function codestats.current_xp()
-    return curr_xp
-end
-
-function codestats.current_xp_formatted()
-    return "CS::" .. tostring(curr_xp)
-end
 
 function codestats.setup(options)
     local codestats_api_key = vim.env.CODESTATS_API_KEY or options["key"]
