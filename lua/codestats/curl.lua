@@ -3,7 +3,7 @@ local function curl(key, version, url,payload)
 		'curl',
 		'--header', 'Content-Type: application/json',
 		'--header', 'X-API-Token: ' .. key,
-		'--user-agent', 'codestats.nvim/' .. verison,
+		'--user-agent', 'codestats.nvim/' .. version,
 		'--data', payload,
 		'--request', 'POST',
 		'--silent',
