@@ -30,13 +30,13 @@ M.setup = function(options)
         print(key, value)
     end
 
-    opts = vim.tbl_extend("force", opts, set_opts)
-    cmd([[  augroup codestats ]])
-    cmd([[  autocmd! ]])
-    cmd([[  autocmd InsertCharPre,TextChanged : lua require('codestats').gather_xp() ]])
-    cmd([[  autocmd VimLeavePre : lua require('codestats').pulse() ]])
-    cmd([[  autocmd BufWrite,BufLeave : lua require('codestats').pulse() ]])
-    cmd([[  augroup END ]])
+     opts = vim.tbl_extend("force", opts, set_opts)
+    -- cmd([[  augroup codestats ]])
+    -- cmd([[  autocmd! ]])
+    -- cmd([[  autocmd InsertCharPre,TextChanged : lua require('codestats').gather_xp() ]])
+    -- cmd([[  autocmd VimLeavePre : lua require('codestats').pulse() ]])
+    -- cmd([[  autocmd BufWrite,BufLeave : lua require('codestats').pulse() ]])
+    -- cmd([[  augroup END ]])
 end
 
 return M
