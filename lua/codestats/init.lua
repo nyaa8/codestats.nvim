@@ -1,14 +1,36 @@
+local g = vim.g
 local languages = require("codestats.languages")
 local curl = require("codestats.curl")
 
-CODESTATS_VERSION = "0.3.0"
-CODESTATS_API_URL = vim.env.CODESTATS_API_URL or "https://codestats.net/api"
-CODESTATS_API_KEY = vim.env.CODESTATS_API_KEY
+local M = {}
 
+M.config = {
+
+    version = "0.3.0",
+    url = "https://codestats.net/api",
+}
 local xp_table = {}
 local curr_xp = 0
 
-local function gather_xp(filetype, xp_amount)
+--M.init = function() end
+--
+M.setup = function(options)
+    local codestats_api_key = vim.env.CODESTATS_API_KEY
+    if codestats_api_key == nil then
+        vim.cmd('o "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
+        return
+    end
+    local username = vim.env.CODESTATS_USERNAME or options["username"]
+    if username == nil then
+        vim.cmd('o "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
+        return
+    end
+
+    M.config["username"] = username
+    M.config["key"] = codestats_api_key
+end
+
+M.gather_xp = function(filetype, xp_amount)
     if filetype:gsub("%s+", "") == "" then
         filetype = "plain_text"
     end
@@ -17,12 +39,7 @@ local function gather_xp(filetype, xp_amount)
     curr_xp = xp_table[filetype]
 end
 
-local function pulse()
-    if #CODESTATS_API_KEY == 0 then
-        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
-        return
-    end
-
+M.pulse = function()
     if next(xp_table) == nil then
         return
     end
@@ -46,20 +63,12 @@ local function pulse()
     end
 end
 
-local function current_xp()
+M.current_xp = function()
     return curr_xp
 end
 
-local function current_xp_formatted()
+M.current_xp_formatted = function()
     return "CS::" .. tostring(curr_xp)
 end
 
-return {
-    pulse = pulse,
-    gather_xp = gather_xp,
-    current_xp = current_xp,
-    current_xp_formatted = current_xp_formatted,
-    CODESTATS_VERSION = CODESTATS_VERSION,
-    CODESTATS_API_URL = CODESTATS_API_URL,
-    CODESTATS_API_KEY = CODESTATS_API_KEY,
-}
+return M
