@@ -72,41 +72,29 @@ M.setup = function(options)
     M.config = vim.tbl_extend("force", base, opts)
 
     M.startup()
-    --d”, {
-    --	desc = 'Open non-Vim-readable files in system default applications.’,
-    --		pattern = '*.png, *.jpg, *.gif, *.pdf, *.xls*, *.ppt, *.doc*, *.rtf',
-    --			command =
-    --} cmd([[  augroup codestats ]])
-    -- cmd([[  autocmd! ]])
-    -- cmd([[  autocmd InsertCharPre,TextChanged : lua require('codestats').gather_xp() ]])
-    -- cmd([[  autocmd VimLeavePre : lua require('codestats').pulse() ]])
-    -- cmd([[  autocmd BufWrite,BufLeave : lua require('codestats').pulse() ]])
-    -- cmd([[  augroup END ]])
 end
 
 M.startup = function()
     local codestats_group = vim.api.nvim_create_augroup("codestats", { clear = true })
-    vim.api.nvim_create_autocmd("VimLeavePre", {
 
+    vim.api.nvim_create_autocmd("VimLeavePre", {
         group = codestats_group,
-        callback = function(data)
-            print("VimLeavePre")
+        callback = function()
+            M.pulse()
         end,
     })
 
     vim.api.nvim_create_autocmd({ "InsertCharPre", "TextChanged" }, {
-
         group = codestats_group,
-        callback = function(data)
-            print("InsertCharPre/TextChanged")
+        callback = function()
+            M.gather_xp(vim.api.nvim_buf_get_option(0, "filetype"), 1)
         end,
     })
 
     vim.api.nvim_create_autocmd({ "BufWrite", "BufLeave" }, {
-
         group = codestats_group,
-        callback = function(data)
-            print("BufWrite/BufLeave")
+        callback = function()
+            M.pulse()
         end,
     })
 end
