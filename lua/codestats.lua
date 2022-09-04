@@ -1,6 +1,5 @@
 local curl = require("codestats.curl")
 local languages = require("codestats.languages")
-local cmd = api.nvim_command
 
 local M = {}
 
@@ -10,23 +9,23 @@ local base = {
 }
 
 M.setup = function(options)
-    -- local codestats_api_key = vim.env.CODESTATS_API_KEY or options["key"]
-    -- if codestats_api_key == nil then
-    --     vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
-    --     return
-    -- end
-    -- local username = vim.env.CODESTATS_USERNAME or options["username"]
-    -- if username == nil then
-    --     vim.cmd('echo "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
-    --     return
-    -- end
+    local codestats_api_key = vim.env.CODESTATS_API_KEY or options.key
+    if codestats_api_key == nil then
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_API_KEY environment variable!"')
+        return
+    end
+    local username = vim.env.CODESTATS_USERNAME or options.username
+    if username == nil then
+        vim.cmd('echo "codestats.nvim: Please set $CODESTATS_USERNAME environment variable or set it in the config!"')
+        return
+    end
 
-    -- local set_opts = {
-    --     key = codestats_api_key,
-    --     username = username,
-    -- }
+    local opts = {
+        key = codestats_api_key,
+        username = username,
+    }
 
-    M.config = options or base
+    M.config = vim.tbl_extend("force", base, opts)
 
     -- for key, value in pairs(opts) do
     --     print(key, value)
