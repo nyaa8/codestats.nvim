@@ -27,17 +27,39 @@ M.setup = function(options)
 
     M.config = vim.tbl_extend("force", base, opts)
 
-    -- for key, value in pairs(opts) do
-    --     print(key, value)
-    -- end
+    for key, value in pairs(M.config) do
+        print(key, value)
+    end
 
-    --  opts = vim.tbl_extend("force", base, set_opts)
-    -- cmd([[  augroup codestats ]])
+    M.startup()
+    --d”, {
+    --	desc = 'Open non-Vim-readable files in system default applications.’,
+    --		pattern = '*.png, *.jpg, *.gif, *.pdf, *.xls*, *.ppt, *.doc*, *.rtf',
+    --			command =
+    --} cmd([[  augroup codestats ]])
     -- cmd([[  autocmd! ]])
     -- cmd([[  autocmd InsertCharPre,TextChanged : lua require('codestats').gather_xp() ]])
     -- cmd([[  autocmd VimLeavePre : lua require('codestats').pulse() ]])
     -- cmd([[  autocmd BufWrite,BufLeave : lua require('codestats').pulse() ]])
     -- cmd([[  augroup END ]])
+end
+
+M.startup = function()
+    local codestats_group = vim.api.nvim_create_augroup("codestats", { clear = true })
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+        command = "print('this is a remove')",
+        group = codestats_group,
+    })
+
+    vim.api.nvim_create_autocmd({"InsertCharPre","TextChanged"}, {
+        command = "print('this insert')",
+        group = codestats_group,
+    })
+
+    vim.api.nvim_create_autocmd({ "BufWrite", "BufLeave" }, {
+        command = "print('this is a bufwrite/leave')",
+        group = codestats_group,
+    })
 end
 
 return M
