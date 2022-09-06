@@ -1,4 +1,4 @@
-local curl = require("codestats.curl")
+local request = require("codestats.curl")
 local languages = require("codestats.languages")
 
 local M = {}
@@ -20,7 +20,7 @@ M.gather_xp = function(filetype, xp_amount)
     curr_xp = xp_table[filetype]
 end
 
-M.pulse = function()
+M.pulse = function(quit)
     if next(xp_table) == nil then
         return
     end
@@ -36,7 +36,12 @@ M.pulse = function()
 
     payload = payload:sub(1, -2) .. payload_end
 
-    local response = curl(M.config.key, M.config.version, M.config.url, payload)
+    if quit then
+        request.curl(M.config.key, M.config.version, M.config.url, payload)
+        return
+    end
+
+    local response = request.curl(M.config.key, M.config.version, M.config.url, payload)
 
     if response:sub(1, 1) == "2" then
         xp_table = {}
@@ -74,13 +79,23 @@ M.setup = function(options)
     M.startup()
 end
 
+M.print = function()
+    for filetype, xp in pairs(xp_table) do
+        print(filetype, xp)
+    end
+end
+
+M.fetch = function()
+    curl.fetch(M.config.version, M.config.url, M.config.username)
+end
+
 M.startup = function()
     local codestats_group = vim.api.nvim_create_augroup("codestats", { clear = true })
 
     vim.api.nvim_create_autocmd("VimLeavePre", {
         group = codestats_group,
         callback = function()
-            M.pulse()
+            M.pulse(true)
         end,
     })
 
@@ -94,7 +109,7 @@ M.startup = function()
     --    vim.api.nvim_create_autocmd({ "BufWrite", "BufLeave" }, {
     --        group = codestats_group,
     --        callback = function()
-    --            M.pulse()
+    --            M.pulse(false)
     --        end,
     --    })
 end
