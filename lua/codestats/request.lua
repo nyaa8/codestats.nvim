@@ -6,8 +6,7 @@ M.fetch = function(version, url, username)
         "--header", "Content-Type: application/json",
         "--user-agent", "codestats.nvim/" .. version,
         "--request", "GET",
-        "--silent", 
-        "--write-out", "%{http_code}",
+        "--silent",
         url .. "/users/" .. username,
     }
     return vim.fn.system(cmd)

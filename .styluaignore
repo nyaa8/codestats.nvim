@@ -1,2 +1,2 @@
-lua/codestats/curl.lua
+lua/codestats/request.lua
 lua/codestats/languages.lua

@@ -1,10 +1,15 @@
-local request = require("codestats.curl")
+local request = require("codestats.request")
 local languages = require("codestats.languages")
 
 local M = {}
 
-local xp_table = {}
 local curr_xp = 0
+local total_xp = 0
+local new_xp = 0
+local xp_table = {}
+local machines = {}
+local langs = {}
+local dates = {}
 
 local base = {
     version = "0.3.0",
@@ -18,6 +23,17 @@ M.gather_xp = function(filetype, xp_amount)
 
     xp_table[filetype] = (xp_table[filetype] or 0) + xp_amount
     curr_xp = xp_table[filetype]
+end
+
+M.fetch = function()
+    local res = request.fetch(M.config.version, M.config.url, M.config.username)
+
+    local json = vim.json.decode(res)
+    total_xp = json["total_xp"]
+    new_xp = json["new_xp"]
+    machines = json["machines"]
+    langs = json["languages"]
+    dates = json["dates"]
 end
 
 M.pulse = function(quit)
@@ -83,10 +99,6 @@ M.print = function()
     for filetype, xp in pairs(xp_table) do
         print(filetype, xp)
     end
-end
-
-M.fetch = function()
-    curl.fetch(M.config.version, M.config.url, M.config.username)
 end
 
 M.startup = function()
