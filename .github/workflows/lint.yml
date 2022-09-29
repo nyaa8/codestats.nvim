@@ -16,3 +16,4 @@ jobs:
           # CLI arguments
           args: --color always --check lua/
           # Specify `version` to pin a specific version, otherwise action will always use latest version/automatically update
+          version: latest
