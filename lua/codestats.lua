@@ -25,7 +25,7 @@ M.gather_xp = function(filetype, xp_amount)
     curr_xp = xp_table[filetype]
 end
 
-M.fetch_data = function()
+M.fetch = function()
     local res = request.fetch(M.config.version, M.config.url, M.config.username)
 
     local json = vim.json.decode(res)
