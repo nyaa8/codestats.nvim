@@ -14,28 +14,18 @@ A simple [neovim](https://neovim.io) plugin for [Code::Stats](https://codestats.
 - neovim 0.5 or newer
 
 ## Installation
-### [vim-plug](https://github.com/junegunn/vim-plug)
 
-```viml
-Plug 'nyaa8/codestats.nvim'
+### [Packer](https://github.com/wbthomason/packer.nvim)
+
+```lua
+use("mcarn/codestats.nvim")
 ```
 
-### [vundle](https://github.com/VundleVim/Vundle.vim)
+### [Lazy](https://github.com/folke/lazy.nvim)
 
-```viml
-Plugin 'nyaa8/codestats.nvim'
-```
-
-### [vim-packager](https://github.com/kristijanhusak/vim-packager)
-
-```viml
-call packager#add('nyaa8/codestats.nvim')
-```
-
-### [dein](https://github.com/Shougo/dein.vim)
-
-```viml
-call dein#add('nyaa8/codestats.nvim')
+```lua
+local plugins = {"mcarn/codestats.nvim"}
+require("lazy").setup(plugins, opts)
 ```
 
 ## Configuration
@@ -61,6 +51,7 @@ echo "export CODESTATS_API_KEY=SFMyNTY.OEotWWdnPT0jI01qaz0.X0wVEZquh8Ogau1iTtBih
 ```
 
 You can also set `CODESTATS_API_URL` if you want to use a different instance, eg.
+
 ```sh
 set -Ux CODESTATS_API_URL "https://beta.codestats.net/api"
 ```
