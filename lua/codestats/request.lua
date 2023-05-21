@@ -1,15 +1,16 @@
+local curl = require'plenary.curl'
+
 local M = {}
 
 M.fetch = function(version, url, username)
-    local cmd = {
-        "curl",
-        "--header", "Content-Type: application/json",
-        "--user-agent", "codestats.nvim/" .. version,
-        "--request", "GET",
-        "--silent",
-        url .. "/users/" .. username,
-    }
-    return vim.fn.system(cmd)
+
+	local res = 	curl.get(        url .. "/users/" .. username,{
+		accept = "application/json",
+		headers = {
+["Content-Type"]= "application/json"
+		}
+	})
+return vim.json.decode(res.body)
 end
 
 M.curl = function(key, version, url, payload)
@@ -20,7 +21,7 @@ M.curl = function(key, version, url, payload)
         "--user-agent", "codestats.nvim/" .. version,
         "--data", payload,
         "--request", "POST",
-        "--silent", 
+        "--silent",
         "--output", "/dev/null",
         "--write-out", "%{http_code}",
         url .. "/my/pulses",
@@ -30,3 +31,7 @@ M.curl = function(key, version, url, payload)
 end
 
 return M
+
+
+
+
